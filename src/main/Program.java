@@ -23,12 +23,35 @@ public class Program {
             String fizMod = adatok[3];
             
             Fuvar fuvar = new Fuvar(rsz,idoMp,osszeg,fizMod);
-            fuvarok.add(fuvar);
+            fuvarok.add(fuvar);  
         }
+        feladatok();
     }
     
     private static void feladatok(){
-        
+        System.out.println("1. Az összes fuvar értéke: "+fuvarokErteke()+" Euro");
+        System.out.println("2. legdrágább fuvar rendszáma: "+ legdragabbFuvar());
     }
     
+    private static int fuvarokErteke(){
+        int osszeg = 0;
+        
+        for (int i = 0; i < fuvarok.size(); i++) {
+            osszeg+=fuvarok.get(i).getOsszeg();
+        }
+        return osszeg;
+    }
+    
+    private static String legdragabbFuvar() {
+        if (fuvarok.isEmpty()) return "Nincs adat";
+        Fuvar maxFuvar = fuvarok.get(0);
+
+        for (int i = 1; i < fuvarok.size(); i++) {
+            if (fuvarok.get(i).getOsszeg() > maxFuvar.getOsszeg()) {
+                maxFuvar = fuvarok.get(i);
+            }
+        }
+
+        return maxFuvar.getRsz();
+    }
 }

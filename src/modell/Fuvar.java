@@ -3,7 +3,7 @@ package modell;
 public class Fuvar {
     private String rsz;
     private int idoMp;
-    private int osszeg;
+    private double osszeg;
     private String fizMod;
 
     public Fuvar(String rsz, int idoMp, int osszeg, String fizMod) {
@@ -21,7 +21,7 @@ public class Fuvar {
         return idoMp;
     }
 
-    public int getOsszeg() {
+    public double getOsszeg() {
         return osszeg;
     }
 

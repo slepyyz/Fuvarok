@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import modell.Fuvar;
 
@@ -30,7 +31,13 @@ public class Program {
     
     private static void feladatok(){
         System.out.println("1. Az összes fuvar értéke: "+fuvarokErteke()+" Euro");
-        System.out.println("2. legdrágább fuvar rendszáma: "+ legdragabbFuvar());
+        System.out.println("2. Legdrágább fuvar rendszáma: "+ legdragabbFuvar());
+        System.out.println("3. A legolcsobb fuvar forintban: "+ legolcsobbFuvar()+ "Forint");
+        System.out.println("4. Hány kártyás fizetés volt?: "+hanyKartyasFizetes());
+        System.out.println("5. Minden fizetési mód meghatározott?: "+mindenFizetesiModMeghatarozott());
+        System.out.println("6. Hány darab autó van a rendszerben?: "+ hanyAutoVanARendszerben());
+        System.out.println("7. Hányféle fizetési mód van?: "+hanyfeleFizetesiMod());
+        
     }
     
     private static int fuvarokErteke(){
@@ -43,7 +50,6 @@ public class Program {
     }
     
     private static String legdragabbFuvar() {
-        if (fuvarok.isEmpty()) return "Nincs adat";
         Fuvar maxFuvar = fuvarok.get(0);
 
         for (int i = 1; i < fuvarok.size(); i++) {
@@ -53,5 +59,63 @@ public class Program {
         }
 
         return maxFuvar.getRsz();
+    }
+    
+    private static double legolcsobbFuvar() {
+        Fuvar minFuvar = fuvarok.get(0);
+
+        for (int i = 1; i < fuvarok.size(); i++) {
+            if (minFuvar.getOsszeg() > fuvarok.get(i).getOsszeg()) {
+                minFuvar = fuvarok.get(i);
+            }
+        }
+
+        return minFuvar.getOsszeg()*360;
+    }
+    
+    private static int hanyKartyasFizetes(){
+        int kartyasFizetes = 0;
+        
+        for (int i = 0; i < fuvarok.size(); i++) {
+            if (fuvarok.get(i).getFizMod().equals("Kártya")) {
+                kartyasFizetes+=1;
+            }
+        }
+        return kartyasFizetes;
+    }
+    
+    private static String mindenFizetesiModMeghatarozott(){
+        int i = 0;
+        int N = fuvarok.size();
+        
+        while(N>i && !("-".equals(fuvarok.get(i).getFizMod()))){
+            i++;
+        }
+        return i==N? "Igen" : "Nem";
+    }
+    
+    private static int hanyAutoVanARendszerben(){
+        HashSet<String> egyediAutok = new HashSet<>();
+        
+        for (Fuvar fuvar : fuvarok) {
+            egyediAutok.add(fuvar.getRsz());
+        }
+        
+        return egyediAutok.size();
+    }
+    
+    private static int hanyfeleFizetesiMod(){
+        HashSet<String> egyediFizMod = new HashSet<>();
+        
+        for (Fuvar fuvar : fuvarok) {
+            if (!(fuvar.getFizMod().equals("-"))) {
+                egyediFizMod.add(fuvar.getFizMod());
+            }
+        }
+        return egyediFizMod.size();
+    }
+    
+    private static String melyikAutoMennyiFuvar(){
+        
     }
 }

@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import modell.Fuvar;
 
 public class Program {
@@ -37,6 +39,8 @@ public class Program {
         System.out.println("5. Minden fizetési mód meghatározott?: "+mindenFizetesiModMeghatarozott());
         System.out.println("6. Hány darab autó van a rendszerben?: "+ hanyAutoVanARendszerben());
         System.out.println("7. Hányféle fizetési mód van?: "+hanyfeleFizetesiMod());
+        System.out.println("8. Melyik autoból hány darab van: ");
+        melyikbolMennyi();
         
     }
     
@@ -88,7 +92,7 @@ public class Program {
         int i = 0;
         int N = fuvarok.size();
         
-        while(N>i && !("-".equals(fuvarok.get(i).getFizMod()))){
+        while(i<N && !("-".equals(fuvarok.get(i).getFizMod()))){
             i++;
         }
         return i==N? "Igen" : "Nem";
@@ -115,7 +119,21 @@ public class Program {
         return egyediFizMod.size();
     }
     
-    private static String melyikAutoMennyiFuvar(){
+    private static void melyikbolMennyi(){
+        Map<String, Integer> mm = new HashMap<>();
         
+        for (Fuvar fuvar : fuvarok) {
+            String kulcs = fuvar.getRsz();
+            if (mm.containsKey(kulcs)) {
+                int ertek = mm.get(kulcs);
+                mm.put(kulcs, ++ertek);
+            }else{
+                mm.put(kulcs, 1);
+            }
+        }
+        
+        mm.forEach((rendszam, darab) -> {
+            System.out.printf("%d-DB -> %s%n", darab, rendszam);
+        });
     }
 }
